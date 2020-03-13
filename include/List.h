@@ -1,63 +1,42 @@
 #include <string>
 #pragma once
+
 struct Node
 {
 	std::string data;
-	Node* next = 0;
-	Node* down = 0;
+	Node* next;
+	Node* down;
 	int level;
-
-public:
-	/*Node()
-	{
-
-	}*/
 };
 
-class List
+struct MyIterator
 {
-	Node* first = 0;
-	Node* end = 0;
+	Node* it;
+	std::pair<int, std::string>& operator*();
+	std::pair<int, std::string>& operator->();
 
+	MyIterator next();//"идет вправо"
+	MyIterator endNext();//"идет вправо до упора"
+	MyIterator nextLevel();//"идет вниз"
+	MyIterator endNextLevel();//"идет вниз до упора"
+
+	void insNext(std::string data); //"добавляет новый Node в next"
+	void insDown(std::string data); //"добавляет новый Node в down"
+
+	bool operator==(const MyIterator& iterator);
+	bool operator!=(const MyIterator& iterator);
+};
+
+class MyList
+{
+	Node* begin;
+	Node* end;
 public:
-	List()
-	{
-		first = new Node();
-		first->next = end;
-		end = first;
-	}
-	void push_back_current_level(std::string _data);
-	void push_back_next_level(std::string _data);
-	void pop();
+	MyIterator getBegin();
+	MyIterator getEnd();
+	void push_back_current_level(std::string data); //"новый Node в end->next"
+	void push_back_next_level(std::string data); //"новый Node в end->down"
+	std::pair<int, std::string> pop();
 	void print();
-	~List();
+	~MyList();
 };
-
-void List::push_back_current_level(std::string _data)
-{
-	/*if (first == end)
-	{
-		end->data = _data;
-		return;
-	}*/
-	Node* temp = new Node();
-	temp->data = _data;
-	end->next = temp;
-	end = end->next;
-}
-void List::push_back_next_level(std::string _data)
-{
-
-}
-void List::pop()
-{
-
-}
-void List::print()
-{
-
-}
-List::~List()
-{
-
-}
