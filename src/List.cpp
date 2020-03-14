@@ -1,15 +1,15 @@
 #include <iostream>
 #include "List.h"
-
-std::pair<int, std::string>& MyIterator::operator*()
+/*
+std::pair<int, std::string> MyIterator::operator*()
 {
 	return std::pair<int, std::string>(it->level, it->data);
 }
 
-std::pair<int, std::string>& MyIterator::operator->()
+std::pair<int, std::string> MyIterator::operator->()
 {
 	return std::pair<int, std::string>(it->next->level, it->next->data);
-}
+}*/
 
 MyIterator MyIterator::next()
 {
@@ -28,6 +28,8 @@ MyIterator MyIterator::endNext()
 
 MyIterator MyIterator::nextLevel()
 {
+	if (it->down == nullptr)
+		throw "Can't go nextLevel";
 	it = it->down;
 	return *this;
 }
@@ -49,4 +51,18 @@ void MyIterator::insDown(std::string data)
 {
 	int lev = it->level;
 	it->down = new Node(data, lev + 1);
+}
+
+bool MyIterator::operator==(const MyIterator& iterator)
+{
+	if (this->it->data == iterator.it->data && this->it->level == iterator.it->level)
+		return true;
+	return false;
+}
+
+bool MyIterator::operator!=(const MyIterator& iterator)
+{
+	if (this->it->data != iterator.it->data || this->it->level != iterator.it->level)
+		return true;
+	return false;
 }

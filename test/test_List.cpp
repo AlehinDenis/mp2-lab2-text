@@ -67,6 +67,13 @@ TEST(MyIterator, can_go_nextLevel)
 	EXPECT_EQ(temp, iterator.nextLevel().it);
 }
 
+TEST(MyIterator, cant_go_right_if_nextLevel_equal_nullptr)
+{
+	MyIterator iterator;
+	iterator.it = new Node;
+
+	ASSERT_ANY_THROW(iterator.nextLevel());
+}
 
 TEST(MyIterator, can_insert_nextLevel)
 {
@@ -80,27 +87,44 @@ TEST(MyIterator, can_insert_nextLevel)
 	EXPECT_EQ(curLev + 1, iterator.it->level);
 }
 
-TEST(MyIterator, can_return_pair_by_operator_of_dereferencing)
+TEST(MyIterator, can_go_to_the_end)
 {
 	MyIterator iterator;
-	iterator.it = new Node("Data");
-	std::pair<int, std::string> temp(0, "Data");
-	std::pair<int, std::string> temp2 = *iterator;
+	iterator.it = new Node;
+	iterator.insNext("1"); 
+	iterator.it->next->next = new Node("2");
 
-	EXPECT_EQ(temp ,temp2);
+	EXPECT_EQ("2", iterator.endNext().it->data);
 }
 
-
-/*
-TEST(MyList, can_create_MyList)
+TEST(MyIterator, can_go_to_the_nextLevel_end)
 {
+	MyIterator iterator;
+	iterator.it = new Node;
+	iterator.insDown("1");
+	iterator.it->down->down = new Node("2");
 
-	ASSERT_NO_THROW(MyList test);
+	EXPECT_EQ("2", iterator.endNextLevel().it->data);
 }
 
-TEST(MyList, can_push_element_to_current_level_without_exceptions)
+TEST(MyIterator, can_compare_two_equal_MyIterator)
 {
-	MyList test;
+	MyIterator iterator1;
+	MyIterator iterator2;
+	iterator1.it = new Node("Data");
+	iterator2.it = new Node("Data");
 
-	ASSERT_NO_THROW(test.push_back_current_level("Test"));
-}*/
+	EXPECT_EQ(true, iterator1 == iterator2);
+	EXPECT_EQ(false, iterator1 != iterator2);
+}
+
+TEST(MyIterator, can_compare_two_not_equal_MyIterator)
+{
+	MyIterator iterator1;
+	MyIterator iterator2;
+	iterator1.it = new Node("Data1");
+	iterator2.it = new Node("Data2");
+
+	EXPECT_EQ(false, iterator1 == iterator2);
+	EXPECT_EQ(true, iterator1 != iterator2);
+}
