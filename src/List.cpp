@@ -66,3 +66,50 @@ bool MyIterator::operator!=(const MyIterator& iterator)
 		return true;
 	return false;
 }
+
+MyIterator MyList::getBegin()
+{
+	MyIterator temp;
+	temp.it = begin;
+	return temp;
+}
+
+MyIterator MyList::getEnd()
+{
+	MyIterator temp;
+	temp.it = end;
+	return temp;
+}
+
+void MyList::push_back_current_level(std::string data)
+{
+	if (begin->data == "")
+	{
+		end->data = data;
+		return;
+	}
+	end->next = new Node;
+	end->next->data = data;
+	end = end->next;
+}
+
+void MyList::push_back_next_level(std::string data)
+{
+	if (begin->data == "")
+	{
+		end->data = data;
+		return;
+	}
+	end->down = new Node();
+	end->down->data = data;
+	end->down->level++;
+}
+
+std::pair<int, std::string> MyList::pop()
+{
+	return std::pair<int, std::string>();
+}
+
+void MyList::print()
+{
+}

@@ -4,8 +4,8 @@
 struct Node
 {
 	std::string data;
-	Node* next;
-	Node* down;
+	Node* next = 0;
+	Node* down = 0;
 	int level;
 
 	Node(std::string Data = "", int Level = 0)
@@ -41,6 +41,11 @@ class MyList
 	Node* begin;
 	Node* end;
 public:
+	MyList()
+	{
+		begin = new Node;
+		end = begin;
+	};
 	MyIterator getBegin();
 	MyIterator getEnd();
 	void push_back_current_level(std::string data); //"новый Node в end->next"
