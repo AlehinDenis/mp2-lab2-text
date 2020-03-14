@@ -13,6 +13,8 @@ std::pair<int, std::string>& MyIterator::operator->()
 
 MyIterator MyIterator::next()
 {
+	if (it->next == nullptr)
+		throw "Can't go right";
 	it = it->next;
 	return *this;
 }
@@ -35,4 +37,16 @@ MyIterator MyIterator::endNextLevel()
 	while (it->down != nullptr)
 		nextLevel();
 	return *this;
+}
+
+void MyIterator::insNext(std::string data)
+{
+	int lev = it->level;
+	it->next = new Node(data, lev);
+}
+
+void MyIterator::insDown(std::string data)
+{
+	int lev = it->level;
+	it->down = new Node(data, lev + 1);
 }
