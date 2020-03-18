@@ -43,6 +43,10 @@ MyIterator MyIterator::endNextLevel()
 
 void MyIterator::insNext(std::string data)
 {
+	if (it->next == nullptr)
+	{
+		return;
+	}
 	int lev = it->level;
 	it->next = new Node(data, lev);
 }
@@ -83,9 +87,11 @@ MyIterator MyList::getEnd()
 
 void MyList::push_back_current_level(std::string data)
 {
-	if (begin->data == "")
+	if (begin == 0)
 	{
-		end->data = data;
+		begin = new Node;
+		begin->data = data;
+		end = begin;
 		return;
 	}
 	end->next = new Node;
@@ -95,21 +101,45 @@ void MyList::push_back_current_level(std::string data)
 
 void MyList::push_back_next_level(std::string data)
 {
-	if (begin->data == "")
+	if (begin == 0)
 	{
-		end->data = data;
+		begin = new Node;
+		begin->data = data;
+		end = begin;
 		return;
 	}
-	end->down = new Node();
-	end->down->data = data;
-	end->down->level++;
+	if (end->down == 0)
+	{
+		end->down = new Node;
+		end->down->data = data;
+		end->down->level = end->level + 1;
+		return;
+	}
+	Node* temp = end->down;
+	while (temp->next != 0)
+	{
+		temp = temp->next;
+	}
+	temp->next = new Node;
+	temp->next->data = data;
+	temp->next->level = temp->level;
+	temp = temp->next;
 }
 
 std::pair<int, std::string> MyList::pop()
 {
-	return std::pair<int, std::string>();
+	std::pair<int, std::string> p(end->level, end->data);
+	Node* temp = begin;
+	while (temp->next != end)
+	{
+		temp = temp->next;
+	}
+	temp->next = nullptr;
+	end = temp;
+	return p;
 }
 
 void MyList::print()
 {
+	begin->print();
 }

@@ -8,7 +8,7 @@ struct Node
 	Node* down = 0;
 	int level;
 
-	Node(std::string Data = "", int Level = 0)
+	Node(std::string Data = "", int Level = 1)
 	{
 		data = Data;
 		level = Level;
@@ -16,11 +16,32 @@ struct Node
 		down = nullptr;
 	}
 
+	void print()
+	{
+		std::cout << level << ". " << data << "\n";
+		if (down != 0)
+		{
+			Node* tempDown = down;
+			tempDown->print();
+		}
+		if (next != 0)
+		{
+			Node* tempNext = next;
+			tempNext->print();
+		}
+	}
+
+	friend std::ostream& operator<<(std::ostream& out, const Node node)
+	{
+		out << node.level << ". " << node.data << "\n";
+		return out;
+	}
 };
 
 struct MyIterator
 {
 	Node* it;
+
 	std::pair<int, std::string>& operator*();
 	std::pair<int, std::string>& operator->();
 
@@ -38,14 +59,10 @@ struct MyIterator
 
 class MyList
 {
-	Node* begin;
-	Node* end;
+	Node* begin = nullptr;
+	Node* end = nullptr;
 public:
-	MyList()
-	{
-		begin = new Node;
-		end = begin;
-	};
+
 	MyIterator getBegin();
 	MyIterator getEnd();
 	void push_back_current_level(std::string data); //"новый Node в end->next"
