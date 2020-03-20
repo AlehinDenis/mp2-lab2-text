@@ -128,3 +128,80 @@ TEST(MyIterator, can_compare_two_not_equal_MyIterator)
 	EXPECT_EQ(false, iterator1 == iterator2);
 	EXPECT_EQ(true, iterator1 != iterator2);
 }
+
+TEST(MyList, can_get_begin_from_empty_list)
+{
+	MyList test;
+
+	EXPECT_EQ(nullptr, test.getBegin().it);
+}
+
+TEST(MyList, can_get_begin_from_list_with_elements)
+{
+	MyList test;
+	test.push_back_current_level("Test");
+
+	EXPECT_EQ("Test", test.getBegin().it->data);
+}
+
+TEST(MyList, can_get_end_from_empty_list)
+{
+	MyList test;
+
+	EXPECT_EQ(nullptr, test.getEnd().it);
+}
+
+TEST(MyList, can_get_end_from_list_with_one_element)
+{
+	MyList test;
+	test.push_back_current_level("Test");
+
+	EXPECT_EQ("Test", test.getEnd().it->data);
+}
+
+TEST(MyList, can_get_end_from_list_with_two_elements)
+{
+	MyList test;
+	test.push_back_current_level("Test1");
+	test.push_back_current_level("Test2");
+
+	EXPECT_EQ("Test2", test.getEnd().it->data);
+}
+
+TEST(MyIterator, can_insertnext_in_current_node_if_it_is_empty)
+{
+	MyIterator test;
+	test.insNext("Test");
+
+	EXPECT_EQ("Test", test.it->data);
+	EXPECT_EQ(0, test.it->level);
+}
+
+TEST(MyIterator, can_insertdown_in_current_node_if_it_is_empty)
+{
+	MyIterator test;
+	test.insDown("Test");
+
+	EXPECT_EQ("Test", test.it->data);
+	EXPECT_EQ(0, test.it->level);
+}
+
+TEST(MyList, can_push_back_current_level)
+{
+	MyList test;
+	test.push_back_current_level("Test1");
+	test.push_back_current_level("Test2");
+	
+	EXPECT_EQ("Test1", test.getBegin().it->data);
+	EXPECT_EQ("Test2", test.getEnd().it->data);
+}
+
+TEST(MyList, can_push_back_next_level)
+{
+	MyList test;
+	test.push_back_next_level("Test1");
+	test.push_back_next_level("Test2");
+
+	EXPECT_EQ("Test1", test.getBegin().it->data);
+	EXPECT_EQ("Test2", test.getBegin().endNextLevel().it->data);
+}

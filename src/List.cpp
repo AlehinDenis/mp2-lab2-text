@@ -21,8 +21,9 @@ MyIterator MyIterator::next()
 
 MyIterator MyIterator::endNext()
 {
-	while (it->next != nullptr)
-		next();
+	if(it != nullptr)	
+		while (it->next != nullptr)
+			next();
 	return *this;
 }
 
@@ -36,23 +37,27 @@ MyIterator MyIterator::nextLevel()
 
 MyIterator MyIterator::endNextLevel()
 {
-	while (it->down != nullptr)
-		nextLevel();
+	if (it != nullptr)
+		while (it->down != nullptr)
+			nextLevel();
 	return *this;
 }
 
 void MyIterator::insNext(std::string data)
 {
-	if (it->next == nullptr)
+	if (it == nullptr)
+		it = new Node(data);
+	else
 	{
-		return;
+		int lev = it->level;
+		it->next = new Node(data, lev);
 	}
-	int lev = it->level;
-	it->next = new Node(data, lev);
 }
 
 void MyIterator::insDown(std::string data)
 {
+	if (it == nullptr)
+		it = new Node(data);
 	int lev = it->level;
 	it->down = new Node(data, lev + 1);
 }
@@ -81,49 +86,31 @@ MyIterator MyList::getBegin()
 MyIterator MyList::getEnd()
 {
 	MyIterator temp;
-	temp.it = end;
+	temp.it = begin;
+	temp.endNext();
 	return temp;
 }
 
 void MyList::push_back_current_level(std::string data)
 {
-	if (begin == 0)
-	{
-		begin = new Node;
-		begin->data = data;
-		end = begin;
-		return;
-	}
-	end->next = new Node;
-	end->next->data = data;
-	end = end->next;
+	MyIterator temp;
+	temp = getBegin();
+	temp.endNext();
+	temp.insNext(data);
+
+	begin = temp.it;
+	end = getEnd().it;
 }
 
 void MyList::push_back_next_level(std::string data)
 {
-	if (begin == 0)
-	{
-		begin = new Node;
-		begin->data = data;
-		end = begin;
-		return;
-	}
-	if (end->down == 0)
-	{
-		end->down = new Node;
-		end->down->data = data;
-		end->down->level = end->level + 1;
-		return;
-	}
-	Node* temp = end->down;
-	while (temp->next != 0)
-	{
-		temp = temp->next;
-	}
-	temp->next = new Node;
-	temp->next->data = data;
-	temp->next->level = temp->level;
-	temp = temp->next;
+	MyIterator temp;
+	temp = getBegin();
+	temp.endNextLevel();
+	temp.insDown(data);
+
+	begin = temp.it;
+	end = getEnd().it;
 }
 
 std::pair<int, std::string> MyList::pop()
@@ -134,6 +121,7 @@ std::pair<int, std::string> MyList::pop()
 	{
 		temp = temp->next;
 	}
+	delete temp->next;
 	temp->next = nullptr;
 	end = temp;
 	return p;
@@ -142,4 +130,9 @@ std::pair<int, std::string> MyList::pop()
 void MyList::print()
 {
 	begin->print();
+}
+
+MyList::~MyList()
+{
+
 }

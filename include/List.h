@@ -8,7 +8,7 @@ struct Node
 	Node* down = 0;
 	int level;
 
-	Node(std::string Data = "", int Level = 1)
+	Node(std::string Data = "", int Level = 0)
 	{
 		data = Data;
 		level = Level;
@@ -40,7 +40,7 @@ struct Node
 
 struct MyIterator
 {
-	Node* it;
+	Node* it = nullptr;
 
 	std::pair<int, std::string>& operator*();
 	std::pair<int, std::string>& operator->();
@@ -69,5 +69,5 @@ public:
 	void push_back_next_level(std::string data); //"новый Node в end->down"
 	std::pair<int, std::string> pop();
 	void print();
-	//~MyList();
+	~MyList();
 };
