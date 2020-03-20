@@ -69,5 +69,5 @@ public:
 	void push_back_next_level(std::string data); //"новый Node в end->down"
 	std::pair<int, std::string> pop();
 	void print();
-	~MyList();
+	//~MyList();
 };

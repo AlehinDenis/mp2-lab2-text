@@ -1,15 +1,17 @@
 #include <iostream>
+#include <stack>
+#include <vector>
 #include "List.h"
-/*
-std::pair<int, std::string> MyIterator::operator*()
+
+std::pair<int, std::string>& MyIterator::operator*()
 {
 	return std::pair<int, std::string>(it->level, it->data);
 }
 
-std::pair<int, std::string> MyIterator::operator->()
+std::pair<int, std::string>& MyIterator::operator->()
 {
 	return std::pair<int, std::string>(it->next->level, it->next->data);
-}*/
+}
 
 MyIterator MyIterator::next()
 {
@@ -131,8 +133,22 @@ void MyList::print()
 {
 	begin->print();
 }
-
+/*
 MyList::~MyList()
 {
-
+	std::stack<Node*> v;
+	v.push(begin);
+	Node* lastElement = getEnd().endNextLevel().it;
+	while (lastElement != nullptr)
+	{
+		Node* temp = v.top();
+		v.pop();
+		if (temp->next != nullptr)
+			v.push(temp->next);
+		if (temp->down != nullptr)
+			v.push(temp->down);
+		delete temp;
+		temp = nullptr;
+	}
 }
+*/
