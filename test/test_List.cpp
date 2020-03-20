@@ -205,3 +205,32 @@ TEST(MyList, can_push_back_next_level)
 	EXPECT_EQ("Test1", test.getBegin().it->data);
 	EXPECT_EQ("Test2", test.getBegin().endNextLevel().it->data);
 }
+
+TEST(MyList, can_delete_empty_list)
+{
+	MyList test;
+	ASSERT_NO_THROW(test.~MyList());
+}
+
+TEST(MyList, can_delete_list_with_one_element)    // O
+{
+	MyList test;
+	test.push_back_current_level("1");
+	ASSERT_NO_THROW(test.~MyList());
+}
+TEST(MyList, can_delete_list_with_two_elements)    // O -> O
+{
+	MyList test;
+	test.push_back_current_level("1");
+	test.push_back_current_level("2");
+	ASSERT_NO_THROW(test.~MyList());
+}
+
+TEST(MyList, can_delete_list_with_three_elements)	// O 
+{													// |
+	MyList test;									// O -> O
+	test.push_back_current_level("1");
+	test.push_back_next_level("2");
+	test.push_back_current_level("3");
+	ASSERT_NO_THROW(test.~MyList());
+}

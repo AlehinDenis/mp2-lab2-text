@@ -1,6 +1,7 @@
 #include <iostream>
 #include <stack>
 #include <vector>
+#include <string>
 #include "List.h"
 
 std::pair<int, std::string>& MyIterator::operator*()
@@ -136,11 +137,15 @@ void MyList::print()
 
 MyList::~MyList()
 {
+	// if list is empty -> return
 	if (begin == nullptr)
 		return;
+
+	//stack for the DFS algorithm
 	std::stack<Node*> v;
 	v.push(begin);
 
+	// finding last element
 	Node* lastElement = getEnd().it;
 	while (lastElement->next != nullptr || lastElement->down != nullptr)
 	{
@@ -150,7 +155,8 @@ MyList::~MyList()
 			lastElement = lastElement->down;
 	}
 
-	while (!lastElement->data.empty())
+	
+	while (lastElement->next != nullptr || lastElement->down != nullptr)  //while list isn't empty
 	{
 		Node* temp = v.top();
 		v.pop();
