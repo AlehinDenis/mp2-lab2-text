@@ -36,6 +36,12 @@ struct Node
 		out << node.level << ". " << node.data << "\n";
 		return out;
 	}
+
+	~Node()
+	{
+		next = nullptr;
+		down = nullptr;
+	}
 };
 
 struct MyIterator
@@ -69,5 +75,5 @@ public:
 	void push_back_next_level(std::string data); //"новый Node в end->down"
 	std::pair<int, std::string> pop();
 	void print();
-	//~MyList();
+	~MyList();
 };

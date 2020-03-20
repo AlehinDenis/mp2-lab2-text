@@ -133,13 +133,24 @@ void MyList::print()
 {
 	begin->print();
 }
-/*
+
 MyList::~MyList()
 {
+	if (begin == nullptr)
+		return;
 	std::stack<Node*> v;
 	v.push(begin);
-	Node* lastElement = getEnd().endNextLevel().it;
-	while (lastElement != nullptr)
+
+	Node* lastElement = getEnd().it;
+	while (lastElement->next != nullptr || lastElement->down != nullptr)
+	{
+		if (lastElement->next != nullptr)
+			lastElement = lastElement->next;
+		else
+			lastElement = lastElement->down;
+	}
+
+	while (!lastElement->data.empty())
 	{
 		Node* temp = v.top();
 		v.pop();
@@ -151,4 +162,3 @@ MyList::~MyList()
 		temp = nullptr;
 	}
 }
-*/
